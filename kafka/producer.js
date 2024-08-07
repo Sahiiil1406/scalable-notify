@@ -3,19 +3,22 @@ const {Kafka,Partitioners}=require('kafkajs')
 const kafka=new Kafka({
     clientId:'myapp',
     brokers:['localhost:9092'],
-    createPartitioner: Partitioners.LegacyPartitioner,
+   // createPartitioner: Partitioners.LegacyPartitioner,
 })
 const producer=kafka.producer()
 //create two consumer to handle the notification and email
 const consumer_interactive=kafka.consumer({groupId:'interactive'})
 const consumer_noninteractive=kafka.consumer({groupId:'non-interactive'})
 
-const email_consumer=kafka.consumer({groupId:'email'})
-const notification_consumer=kafka.consumer({groupId:'notification'})
-const whatsapp_consumer=kafka.consumer({groupId:'whatsapp'})
+const email_consumer_1=kafka.consumer({groupId:'email-high'})
+const email_consumer_2=kafka.consumer({groupId:'email-low'})
+const notification_consumer_1=kafka.consumer({groupId:'notification-high'})
+const notification_consumer_2=kafka.consumer({groupId:'notification-low'})
+const whatsapp_consumer_1=kafka.consumer({groupId:'whatsapp-high'})
+const whatsapp_consumer_2=kafka.consumer({groupId:'whatsapp-low'})
  
 
-const produceNotification=async(title,message,topic)=>{
+const produceNotification=async(title,message,priority,topic)=>{
     await producer.connect()
     await producer.send({
         topic:topic,
@@ -23,11 +26,13 @@ const produceNotification=async(title,message,topic)=>{
             {
                 value:JSON.stringify({
                     title,
-                    message
+                    message,
+                    priority
                 })
             }
         ]
     })
+
     console.log("Notification sent successfully to Main Queue")
     await producer.disconnect()
 }
@@ -50,8 +55,13 @@ module.exports={
     produceNotification,
     consumer_interactive,
     consumer_noninteractive,
-    email_consumer,
-    notification_consumer,
-    whatsapp_consumer,
-    producer
+    kafka,
+    producer,
+    email_consumer_1,
+    email_consumer_2,
+    notification_consumer_1,
+    notification_consumer_2,
+    whatsapp_consumer_1,
+    whatsapp_consumer_2
+
 }

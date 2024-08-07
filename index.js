@@ -3,7 +3,10 @@ const {produceNotification}=require('./kafka/producer.js')
 //const {consumer,consumer_noninteractive,consumer_interactive}=require('./kafka/producer.js')
 const app=express()
 const {interactive_consumer,noninteractive_consumer}=require('./kafka/level1-consumer.js')
-const {emailConsume,notificationConsume,whatsappConsume}=require('./kafka/level2-consumer.js')
+const {emailConsume}=require('./kafka/email_consumer.js')
+const {whatsappConsume}=require('./kafka/whatsapp_consumer.js')
+const {notificationConsume}=require('./kafka/notification_consumer.js')
+
 
 
 
@@ -12,15 +15,12 @@ app.use(express.urlencoded({extended:true}))
 
 //consumer(consumer_interactive)
 //consumer(consumer_noninteractive)
-interactive_consumer()
-noninteractive_consumer()
-emailConsume()
-notificationConsume()
-whatsappConsume()
+ 
+
 
 app.post('/sendNotification',async(req,res)=>{
     try{
-        const {title,message,topic}=req.body
+        const {title,message,topic,priority}=req.body
         //console.log(title,message)
         if(!title || !message || !topic){
             return res.status(400).json({
@@ -29,7 +29,7 @@ app.post('/sendNotification',async(req,res)=>{
             })
         }
 
-        await produceNotification(title,message,topic)
+        await produceNotification(title,message,priority,topic)
 
         
         res.status(200).json({
@@ -50,6 +50,13 @@ app.get('/',(req,res)=>{
     res.send("Hello World")
 })
 
-app.listen(3001,()=>{
-    console.log("Server started at port 3001")
+
+app.listen(3001,async()=>{
+   await interactive_consumer()
+   await  noninteractive_consumer()
+   await emailConsume()
+   await whatsappConsume()
+    await notificationConsume()
+    
+   console.log("Server started at port 3001")
 })
