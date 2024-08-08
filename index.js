@@ -6,10 +6,10 @@ const {interactive_consumer,noninteractive_consumer}=require('./kafka/level1-con
 const {emailConsume}=require('./kafka/email_consumer.js')
 const {whatsappConsume}=require('./kafka/whatsapp_consumer.js')
 const {notificationConsume}=require('./kafka/notification_consumer.js')
-const {cronJobEmail,
-    cronJobWhatsapp,
-    cronJobNotification}=require('./cron.js')
-
+// const {cronJobEmail,
+//     cronJobWhatsapp,
+//     cronJobNotification}=require('./cron.js')
+const {cron}=require('./cron')
 
 
 
@@ -61,9 +61,10 @@ app.listen(3001,async()=>{
    await emailConsume()
    await whatsappConsume()
    await notificationConsume()
-   await cronJobEmail(),
-   await cronJobWhatsapp(),
-   await cronJobNotification()
+   await cron()
+//    await cronJobEmail(),
+//    await cronJobWhatsapp(),
+  // await cronJobNotification()
    
    console.log("Server started at port 3001")
 })

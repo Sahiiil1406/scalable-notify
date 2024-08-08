@@ -21,6 +21,7 @@ const interactive_consumer=async()=>{
             //get info from database/other source and push to respective queue
             //Randomly push to email,notification and whatsapp queue
             const random=Math.floor(Math.random()*100)%3;
+            //const random=0;
             
             if(random===0){
                 dataStoreInstance.addEmailData(id,info)

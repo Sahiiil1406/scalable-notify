@@ -29,8 +29,15 @@ class dataStore{
             this.notification_data[id] = [data];
         }
     }
-
-
+    removeEmailData(){
+        this.email_data={}
+    }
+    removeWhatsappData(){
+        this.whatsapp_data={}
+    }
+    removeNotificationData(){
+        this.notification_data={}
+    }
 }
 const dataStoreInstance = new dataStore();
 module.exports = dataStoreInstance;
