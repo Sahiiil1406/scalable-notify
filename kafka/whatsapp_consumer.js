@@ -13,11 +13,13 @@ const whatsappConsume=async()=>{
     })
     await whatsapp_consumer_1.run({
         eachMessage:async({topic,partition,message})=>{
+            //third party api to send whatsapp message
             console.log(`Whatsapp Message:${message.value.toString()}`)
         }
     })
     await whatsapp_consumer_2.run({
         eachMessage:async({topic,partition,message})=>{
+            //third party api to send whatsapp message
             console.log(`Whatsapp Message:${message.value.toString()}`)
         }
     })

@@ -1,4 +1,5 @@
 const {email_consumer_1,email_consumer_2}=require('./producer.js')
+const dataStoreInstance = require('../store.js')
 
 
 //email_consumer_1 has higher priority than email_consumer_2

@@ -6,6 +6,9 @@ const {interactive_consumer,noninteractive_consumer}=require('./kafka/level1-con
 const {emailConsume}=require('./kafka/email_consumer.js')
 const {whatsappConsume}=require('./kafka/whatsapp_consumer.js')
 const {notificationConsume}=require('./kafka/notification_consumer.js')
+const {cronJobEmail,
+    cronJobWhatsapp,
+    cronJobNotification}=require('./cron.js')
 
 
 
@@ -20,7 +23,7 @@ app.use(express.urlencoded({extended:true}))
 
 app.post('/sendNotification',async(req,res)=>{
     try{
-        const {title,message,topic,priority}=req.body
+        const {title,message,topic,priority,id}=req.body
         //console.log(title,message)
         if(!title || !message || !topic){
             return res.status(400).json({
@@ -29,7 +32,7 @@ app.post('/sendNotification',async(req,res)=>{
             })
         }
 
-        await produceNotification(title,message,priority,topic)
+        await produceNotification(title,message,priority,topic,id)
 
         
         res.status(200).json({
@@ -51,12 +54,16 @@ app.get('/',(req,res)=>{
 })
 
 
+
 app.listen(3001,async()=>{
    await interactive_consumer()
    await  noninteractive_consumer()
    await emailConsume()
    await whatsappConsume()
-    await notificationConsume()
-    
+   await notificationConsume()
+   await cronJobEmail(),
+   await cronJobWhatsapp(),
+   await cronJobNotification()
+   
    console.log("Server started at port 3001")
 })

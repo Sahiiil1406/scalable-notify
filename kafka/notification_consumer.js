@@ -15,11 +15,13 @@ const notificationConsume=async()=>{
     })
     await notification_consumer_1.run({
         eachMessage:async({topic,partition,message})=>{
+            //third party api to send in app notification
             console.log(`Notification Message:${message.value.toString()}`)
         }
     })
     await notification_consumer_2.run({
         eachMessage:async({topic,partition,message})=>{
+            //third party api to send  in app notification
             console.log(`Notification Message:${message.value.toString()}`)
         }
     })

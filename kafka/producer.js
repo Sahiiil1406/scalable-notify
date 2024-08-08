@@ -18,7 +18,7 @@ const whatsapp_consumer_1=kafka.consumer({groupId:'whatsapp-high'})
 const whatsapp_consumer_2=kafka.consumer({groupId:'whatsapp-low'})
  
 
-const produceNotification=async(title,message,priority,topic)=>{
+const produceNotification=async(title,message,priority,topic,id)=>{
     await producer.connect()
     await producer.send({
         topic:topic,
@@ -27,7 +27,8 @@ const produceNotification=async(title,message,priority,topic)=>{
                 value:JSON.stringify({
                     title,
                     message,
-                    priority
+                    priority,
+                    id
                 })
             }
         ]

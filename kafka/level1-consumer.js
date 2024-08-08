@@ -1,5 +1,7 @@
 const {consumer_interactive,consumer_noninteractive}=require('./producer.js')
 const {producer}=require('./producer.js')
+const dataStoreInstance = require('../store.js')
+//const { json } = require('express')
 
 const interactive_consumer=async()=>{
     await consumer_interactive.connect()
@@ -10,50 +12,54 @@ const interactive_consumer=async()=>{
     
     await consumer_interactive.run({
         eachMessage:async({topic,partition,message})=>{
-            await producer.connect()
+           // await producer.connect()
             console.log(`Interactive Message:${message.value.toString()}`)
             console.log("Message received from interactive queue")
-            const priority=JSON.parse(message.value).priority
-            console.log("Priority=",priority)
+            const info=JSON.parse(message.value)
+            const {title,priority,id}=info
             //push this message to email,notification and whatsapp queue
             //get info from database/other source and push to respective queue
             //Randomly push to email,notification and whatsapp queue
             const random=Math.floor(Math.random()*100)%3;
             
             if(random===0){
-                await producer.send({
-                    topic:`email-${priority}`,
-                    messages:[
-                        {
-                            value:message.value
-                        }
-                    ]
-                })
-                console.log(`Message pushed to email ${priority} queue`)
+                dataStoreInstance.addEmailData(id,info)
+                
+                // await producer.send({
+                //     topic:`email-${priority}`,
+                //     messages:[
+                //         {
+                //             value:message.value
+                //         }
+                //     ]
+                // })
+                console.log("Email Message stored temporarily in memory ")
             }else if(random===1){
-                await producer.send({
-                    topic:`notification-${priority}`,
-                    messages:[
-                        {
-                            value:message.value
-                        }
-                    ]
-                })
-                console.log(`Message pushed to notification ${priority} queue`)
+                dataStoreInstance.addNotificationData(id,info)
+                // await producer.send({
+                //     topic:`notification-${priority}`,
+                //     messages:[
+                //         {
+                //             value:message.value
+                //         }
+                //     ]
+                // })
+                console.log("Notification Message stored temporarily in memory ")
 
         }
         else{
-            await producer.send({
-                topic:`whatsapp-${priority}`,
-                messages:[
-                    {
-                        value:message.value
-                    }
-                ]
-            })
-            console.log(`Message pushed to whatsapp-low ${priority} queue`)
+            dataStoreInstance.addWhatsappData(id,info)
+            // await producer.send({
+            //     topic:`whatsapp-${priority}`,
+            //     messages:[
+            //         {
+            //             value:message.value
+            //         }
+            //     ]
+            // })
+            console.log("Whatsapp Message stored temporarily in memory ")
         }
-        await producer.disconnect()
+       // await producer.disconnect()
         
     }
     
