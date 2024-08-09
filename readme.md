@@ -23,8 +23,7 @@ npm run dev
 3. Consumer services subscribe to these topics and process the notifications.
 4. Processed notifications are sent through appropriate channels to end-users.
 
-## 
-![image](https://github.com/user-attachments/assets/61ff324a-312b-4d14-b97f-42b932c7361e)
+#
 
 ![Screenshot 2024-08-10 041539](https://github.com/user-attachments/assets/6bd8439d-8ad6-4c14-a8a3-99ae273893e5)
 
