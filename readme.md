@@ -22,3 +22,7 @@ npm run dev
 2. These requests are published as messages to Kafka topics.
 3. Consumer services subscribe to these topics and process the notifications.
 4. Processed notifications are sent through appropriate channels to end-users.
+
+## 
+![image](https://github.com/user-attachments/assets/61ff324a-312b-4d14-b97f-42b932c7361e)
+
