@@ -1,5 +1,5 @@
 const {notification_consumer_1,
-    notification_consumer_2,}=require('./producer.js')
+    notification_consumer_2}=require('./producer.js')
 
 
 const notificationConsume=async()=>{

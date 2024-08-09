@@ -3,7 +3,7 @@ const {Kafka,Partitioners}=require('kafkajs')
 const kafka=new Kafka({
     clientId:'myapp',
     brokers:['localhost:9092'],
-   // createPartitioner: Partitioners.LegacyPartitioner,
+   createPartitioner: Partitioners.LegacyPartitioner,
 })
 const producer=kafka.producer()
 //create two consumer to handle the notification and email

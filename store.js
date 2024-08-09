@@ -1,12 +1,11 @@
 //contain 3 array to store data
-//
+
 class dataStore{
     constructor(){
         this.email_data = {};
         this.whatsapp_data = {};
         this.notification_data = {}
     }
-
 
     addEmailData(id,data){
         if(this.email_data[id]){

@@ -7,6 +7,7 @@ const dataStoreInstance = require("./store");
 
 
 let cron=async()=>{
+  const expirationTime=60*1000
 
   setInterval(async()=>{
         await producer.connect()
@@ -77,7 +78,7 @@ let cron=async()=>{
 
 
         await producer.disconnect()
-      },30000)
+      },expirationTime)
     
 
 }
