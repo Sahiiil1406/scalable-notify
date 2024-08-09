@@ -24,5 +24,6 @@ npm run dev
 4. Processed notifications are sent through appropriate channels to end-users.
 
 ## 
+![Screenshot 2024-08-10 041539](https://github.com/user-attachments/assets/6bd8439d-8ad6-4c14-a8a3-99ae273893e5)
 ![image](https://github.com/user-attachments/assets/61ff324a-312b-4d14-b97f-42b932c7361e)
 
